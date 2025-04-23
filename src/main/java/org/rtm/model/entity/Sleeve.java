@@ -24,7 +24,6 @@ public class Sleeve extends BaseEntity {
     private String color;
     private String manufacturer;
     private String notes;
-
     private LocalDate manufactureDate;
 
     @LastModifiedDate
