@@ -1,9 +1,6 @@
 package org.rtm.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +33,9 @@ public class Sleeve extends BaseEntity {
 
     private Long kmStand;
 
-    // Warehouse
+    @ManyToOne()
+    @JoinColumn(name = "warehouse_id")
+    private Warehouse warehouse;
 
     private String status;
 
