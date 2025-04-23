@@ -25,7 +25,7 @@ public class Sleeve extends BaseEntity {
 
     private String sequenceNumber; // Reference number (Satznummer)
     private String design;
-    private String color;
+    private String color; //Maybe make this ENUM when I have all the colors
     private String manufacturer;
     private String notes;
     private LocalDate manufactureDate;
