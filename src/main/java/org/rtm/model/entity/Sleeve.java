@@ -35,6 +35,9 @@ public class Sleeve extends BaseEntity {
     private String notes;
 
     @Column(nullable = false)
+    private Integer location;
+
+    @Column(nullable = false)
     private LocalDate manufactureDate;
 
     @Column(nullable = false)
