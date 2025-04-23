@@ -20,12 +20,24 @@ import java.time.LocalDate;
 @Table(name = "sleeves")
 public class Sleeve extends BaseEntity {
 
+    @Column(nullable = false)
     private String sequenceNumber; // Reference number (Satznummer)
+
+    @Column(nullable = false)
     private String design;
+
+    @Column(nullable = false)
     private String color; //Maybe make this ENUM when I have all the colors
+
     private String manufacturer;
+
+    @Column(nullable = false)
     private String notes;
+
+    @Column(nullable = false)
     private LocalDate manufactureDate;
+
+    @Column(nullable = false)
     private Long width;
 
     @LastModifiedDate
@@ -40,7 +52,9 @@ public class Sleeve extends BaseEntity {
     private String status;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private SleeveType type;
 
+    @Column(nullable = false)
     private SleeveCondition condition;
 }

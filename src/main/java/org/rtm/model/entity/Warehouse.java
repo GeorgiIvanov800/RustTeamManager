@@ -18,7 +18,10 @@ import java.util.List;
 public class Warehouse extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private WarehouseName name;
+
+    @Column(nullable = false)
     private String number;
 
     @OneToMany(mappedBy = "warehouse")
