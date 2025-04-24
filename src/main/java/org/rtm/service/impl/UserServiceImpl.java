@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public RegisterUserResponse registerUser(RegisterUserRequest userRegister) {
 
-       if (userRepository.existsByPersonalNumber(userRegister.personalNumber())) {
+       if (userRepository.existsByPersonalNumber(Integer.valueOf(userRegister.personalNumber()))) {
            throw new DuplicatePersonalNumberException("Personal number already exists");
        }
 
