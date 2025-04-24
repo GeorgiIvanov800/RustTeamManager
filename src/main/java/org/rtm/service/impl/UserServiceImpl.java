@@ -1,6 +1,7 @@
 package org.rtm.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.rtm.exception.DuplicatePersonalNumberException;
 import org.rtm.mapper.UserMapper;
 import org.rtm.model.dto.request.RegisterUserRequest;
 import org.rtm.model.dto.response.RegisterUserResponse;
@@ -19,9 +20,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public RegisterUserResponse registerUser(RegisterUserRequest userRegister) {
 
-        User user = userMapper.toEntity(userRegister);
+       if (userRepository.existsByPersonalNumber(userRegister.personalNumber())) {
+           throw new DuplicatePersonalNumberException("Personal number already exists");
+       }
 
-        userRepository.save(user);
+        User user = userRepository.save(userMapper.toEntity(userRegister));
 
         return userMapper.toResponse(user);
     }
