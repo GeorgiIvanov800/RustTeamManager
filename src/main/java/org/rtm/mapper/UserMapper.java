@@ -8,7 +8,5 @@ import org.rtm.model.entity.User;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
     User toEntity(RegisterUserRequest dto);
 }
