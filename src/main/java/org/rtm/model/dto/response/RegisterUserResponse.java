@@ -4,6 +4,7 @@ public record RegisterUserResponse(
         Long id,
         String firstName,
         String lastName,
-        Integer personalNumber
+        Integer personalNumber,
+        String createdDate
 ) {
 }
