@@ -23,19 +23,22 @@ public class Sleeve extends BaseEntity {
     @Column(nullable = false)
     private String sequenceNumber; // Reference number (Satznummer)
 
+    @Column(nullable = false, unique = true)
+    private Integer sleeveNumber;
+
     @Column(nullable = false)
     private String design;
 
     @Column(nullable = false)
     private String color; //Maybe make this ENUM when I have all the colors
 
+    @Column(nullable = false)
     private String manufacturer;
 
-    @Column(nullable = false)
     private String notes;
 
     @Column(nullable = false)
-    private Integer location;
+    private Integer slot;
 
     @Column(nullable = false)
     private LocalDate manufactureDate;
@@ -59,5 +62,6 @@ public class Sleeve extends BaseEntity {
     private SleeveType type;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private SleeveCondition condition;
 }
