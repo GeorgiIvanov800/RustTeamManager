@@ -1,7 +1,7 @@
 package org.rtm.model.enums;
 
 public enum WarehouseName {
-    G1,
+    G,
     L3,
     L1,
 }

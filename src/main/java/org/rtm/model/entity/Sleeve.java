@@ -21,7 +21,7 @@ import java.time.LocalDate;
 public class Sleeve extends BaseEntity {
 
     @Column(nullable = false)
-    private String sequenceNumber; // Reference number (Satznummer)
+    private Integer sequenceNumber; // Reference number (Satznummer)
 
     @Column(nullable = false, unique = true)
     private Integer sleeveNumber;
@@ -39,7 +39,7 @@ public class Sleeve extends BaseEntity {
 
     private Integer gear; // Zahnrad
 
-    private Integer circumference; //Umfnag
+    private Integer circumference; //Umfang
 
     @Column(nullable = false)
     private Integer slot;
@@ -48,7 +48,7 @@ public class Sleeve extends BaseEntity {
     private LocalDate manufactureDate;
 
     @Column(nullable = false)
-    private Long width;
+    private Integer width;
 
     @LastModifiedDate
     private LocalDate lastUsedAt;
