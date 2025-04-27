@@ -10,50 +10,50 @@ import org.rtm.model.enums.SleeveType;
 import java.time.LocalDate;
 
 public record SaveSleeveRequest(
-        @NotNull(message = "") //Satznummer
+        @NotNull(message = "{sleeve.sequenceNumber.required}") //Satznummer
         Integer sequenceNumber,
 
-        @NotNull(message = "")
+        @NotNull(message = "{sleeve.sleeveNumber.required}")
         Integer sleeveNumber,
 
-        @NotBlank(message = "")
+        @NotBlank(message = "{sleeve.design.required}")
         String design,
 
-        @NotBlank(message = "")
+        @NotBlank(message = "{sleeve.color.required}")
         String color,
 
-        @NotBlank(message = "")
+        @NotBlank(message = "{sleeve.manufacturer.required}")
         String manufacturer,
 
         String notes,
 
-        @NotNull(message = "") //Zahnrad
+        @NotNull(message = "{sleeve.gear.required}") //Zahnrad
         Integer gear,
 
-        @NotNull(message = "") // Umfang
+        @NotNull(message = "{sleeve.circumference.required}") // Umfang
         Integer circumference,
 
-        @NotNull(message = "")
+        @NotNull(message = "{sleeve.slot.required}")
         Integer slot,
 
-        @NotNull(message = "")
-        @PastOrPresent(message = "")
+        @NotNull(message = "{sleeve.manufactureDate.required}")
+        @PastOrPresent(message = "{sleeve.manufactureDate.pastOrPresent}")
         LocalDate manufactureDate,
 
-        @NotNull(message = "")
+        @NotNull(message = "{sleeve.width.required}")
         Integer width,
 
         Long kmStand,
 
-        @NotNull(message = "")
+        @NotNull(message = "{sleeve.warehouse.required}")
         Warehouse warehouse,
 
         String status,
 
-        @NotBlank(message = "")
+        @NotBlank(message = "{sleeve.type.required}")
         SleeveType type,
 
-        @NotBlank(message = "")
+        @NotBlank(message = "{sleeve.condition.required}")
         SleeveCondition condition
 ) {
 }
