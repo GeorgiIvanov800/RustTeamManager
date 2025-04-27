@@ -21,9 +21,6 @@ public class Warehouse extends BaseEntity {
     @Column(nullable = false)
     private WarehouseName name;
 
-    @Column(nullable = false)
-    private String number;
-
     @OneToMany(mappedBy = "warehouse")
     private List<Sleeve> sleeves;
 }
