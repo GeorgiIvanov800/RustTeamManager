@@ -7,7 +7,7 @@ import org.rtm.model.enums.SleeveType;
 import java.time.LocalDate;
 
 public record SaveSleeveResponse(
-
+        Long id,
         Integer sequenceNumber,
         Integer sleeveNumber,
         String design,

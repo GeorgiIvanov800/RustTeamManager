@@ -20,13 +20,15 @@ public class UserController {
     public ResponseEntity<RegisterUserResponse> registerUser(
             @RequestBody @Valid RegisterUserRequest registerUserRequest
     ){
-        RegisterUserResponse response = userService.registerUser(registerUserRequest);
+
+        RegisterUserResponse userResponse = userService.registerUser(registerUserRequest);
+
         return ResponseEntity.created(
                 ServletUriComponentsBuilder
                         .fromCurrentRequest()
                         .path("/{id}")
-                        .buildAndExpand(response.id())
+                        .buildAndExpand(userResponse.id())
                         .toUri()
-        ).body(response);
+        ).body(userResponse);
     }
 }
