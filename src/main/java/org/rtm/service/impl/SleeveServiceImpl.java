@@ -5,6 +5,7 @@ import org.rtm.mapper.SleeveMapper;
 import org.rtm.model.dto.request.SaveSleeveRequest;
 import org.rtm.model.dto.response.SaveSleeveResponse;
 import org.rtm.model.entity.Sleeve;
+import org.rtm.model.entity.Warehouse;
 import org.rtm.repository.SleeveRepository;
 import org.rtm.repository.WarehouseRepository;
 import org.rtm.service.SleeveService;
@@ -21,10 +22,11 @@ public class SleeveServiceImpl implements SleeveService {
     @Override
     public SaveSleeveResponse saveSleeve(SaveSleeveRequest request) {
 
-        System.out.println();
+        Warehouse warehouse = warehouseRepository.getWarehouseByName(request.warehouse().getName());
 
         Sleeve sleeve = sleeveMapper.toEntity(request);
-        System.out.println(sleeve);
-        return null;
+        sleeve.setWarehouse(warehouse);
+
+        return sleeveMapper.toResponse(sleeveRepository.save(sleeve));
     }
 }
