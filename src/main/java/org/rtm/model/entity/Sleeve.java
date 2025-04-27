@@ -37,6 +37,10 @@ public class Sleeve extends BaseEntity {
 
     private String notes;
 
+    private Integer gear; // Zahnrad
+
+    private Integer circumference; //Umfnag
+
     @Column(nullable = false)
     private Integer slot;
 
