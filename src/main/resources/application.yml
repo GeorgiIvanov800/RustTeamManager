@@ -13,5 +13,6 @@ spring:
         format_sql: true
     database: postgresql
 server:
+  port: 8088
   servlet:
     context-path: /api/v1/
