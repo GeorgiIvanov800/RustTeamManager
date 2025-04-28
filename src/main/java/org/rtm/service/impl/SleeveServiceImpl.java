@@ -1,6 +1,7 @@
 package org.rtm.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.rtm.exception.DuplicateSleeveNumberException;
 import org.rtm.mapper.SleeveMapper;
 import org.rtm.model.dto.request.SaveSleeveRequest;
 import org.rtm.model.dto.response.SleeveResponse;
@@ -12,7 +13,7 @@ import org.rtm.service.SleeveService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 
 @Service
@@ -25,7 +26,10 @@ public class SleeveServiceImpl implements SleeveService {
 
     @Override
     public SleeveResponse saveSleeve(SaveSleeveRequest request) {
-
+        System.out.println();
+        if (sleeveNumberExists(request.sleeveNumber())) {
+            throw new DuplicateSleeveNumberException(request.sleeveNumber());
+        }
         Warehouse warehouse = warehouseRepository.getWarehouseByName(request.warehouse().getName());
 
         Sleeve sleeve = sleeveMapper.toEntity(request);
@@ -42,6 +46,11 @@ public class SleeveServiceImpl implements SleeveService {
         return sleeves.stream()
                 .map(sleeveMapper::toResponse)
                 .toList();
+    }
+
+
+    private boolean sleeveNumberExists(Integer sleeveNumber) {
+        return sleeveRepository.existsBySleeveNumber(sleeveNumber);
     }
 
 }
