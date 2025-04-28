@@ -30,7 +30,8 @@ public class SleeveServiceImpl implements SleeveService {
         if (sleeveNumberExists(request.sleeveNumber())) {
             throw new DuplicateSleeveNumberException(request.sleeveNumber());
         }
-        Warehouse warehouse = warehouseRepository.getWarehouseByName(request.warehouse().getName());
+        Warehouse warehouse = warehouseRepository.
+                getWarehouseByName(request.warehouse().getName());
 
         Sleeve sleeve = sleeveMapper.toEntity(request);
         sleeve.setWarehouse(warehouse);
