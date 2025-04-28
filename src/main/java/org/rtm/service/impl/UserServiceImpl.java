@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     public RegisterUserResponse registerUser(RegisterUserRequest userRegister) {
 
        if (userRepository.existsByPersonalNumber(Integer.valueOf(userRegister.personalNumber()))) {
-           throw new DuplicatePersonalNumberException("Personal number already exists");
+           throw new DuplicatePersonalNumberException(userRegister.personalNumber());
        }
 
         User user = userRepository.save(userMapper.toEntity(userRegister));

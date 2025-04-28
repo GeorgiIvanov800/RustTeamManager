@@ -1,4 +1,10 @@
 package org.rtm.model.dto.error;
 
-public record ApiError(String code, String message) {
+import java.time.Instant;
+import java.util.Map;
+
+public record ApiError(String code,
+                       String message,
+                       Instant timestamp,
+                       Map<String,Object> details) {
 }

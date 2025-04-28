@@ -26,7 +26,7 @@ public class SleeveServiceImpl implements SleeveService {
 
     @Override
     public SleeveResponse saveSleeve(SaveSleeveRequest request) {
-        System.out.println();
+
         if (sleeveNumberExists(request.sleeveNumber())) {
             throw new DuplicateSleeveNumberException(request.sleeveNumber());
         }
