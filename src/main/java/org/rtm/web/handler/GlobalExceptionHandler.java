@@ -3,7 +3,7 @@ package org.rtm.web.handler;
 import lombok.AllArgsConstructor;
 import org.rtm.exception.DuplicatePersonalNumberException;
 import org.rtm.exception.DuplicateSleeveNumberException;
-import org.rtm.model.dto.error.ApiError;
+import org.rtm.model.dto.error.ApiErrorResponse;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -23,11 +23,11 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(DuplicatePersonalNumberException.class)
-    public ResponseEntity<ApiError> handleDuplicatePersonalNumberException(DuplicatePersonalNumberException ex) {
+    public ResponseEntity<ApiErrorResponse> handleDuplicatePersonalNumberException(DuplicatePersonalNumberException ex) {
         Locale locale = LocaleContextHolder.getLocale();
         String msg = messageSource.getMessage(ex.getMessage(),ex.getArgs(), locale);
 
-        ApiError body = new ApiError(
+        ApiErrorResponse body = new ApiErrorResponse(
                 "409",
                 msg,
                 Instant.now(),
@@ -37,11 +37,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DuplicateSleeveNumberException.class)
-    public ResponseEntity<ApiError> handleDuplicateSleeveNumberException(DuplicateSleeveNumberException ex) {
+    public ResponseEntity<ApiErrorResponse> handleDuplicateSleeveNumberException(DuplicateSleeveNumberException ex) {
         Locale locale = LocaleContextHolder.getLocale();
         String msg = messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale);
 
-        ApiError body = new ApiError(
+        ApiErrorResponse body = new ApiErrorResponse(
                 "409",
                 msg,
                 Instant.now(),
