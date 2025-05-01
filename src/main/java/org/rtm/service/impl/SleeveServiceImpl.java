@@ -12,6 +12,7 @@ import org.rtm.repository.SleeveRepository;
 import org.rtm.repository.WarehouseRepository;
 import org.rtm.service.SleeveService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class SleeveServiceImpl implements SleeveService {
     private final WarehouseRepository warehouseRepository;
 
     @Override
+    @Transactional
     public SleeveResponse saveSleeve(SaveSleeveRequest request) {
 
         if (sleeveNumberExists(request.sleeveNumber())) {
