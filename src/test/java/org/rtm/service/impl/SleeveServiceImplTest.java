@@ -10,7 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.rtm.exception.DuplicateSleeveNumberException;
 import org.rtm.mapper.SleeveMapper;
 import org.rtm.model.dto.request.SaveSleeveRequest;
-import org.rtm.model.entity.Sleeve;
 import org.rtm.repository.SleeveRepository;
 import org.rtm.repository.WarehouseRepository;
 import org.rtm.testutlis.TestDataUtil;
