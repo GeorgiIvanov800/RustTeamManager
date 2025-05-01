@@ -64,18 +64,49 @@ public class TestDataUtil {
         return warehouse;
     }
 
-    public static Sleeve createSleeve(Long id, int sequenceNumber) {
+    public static Sleeve createSleeve(Long id, SaveSleeveRequest request) {
         Sleeve sleeve = new Sleeve();
-        sleeve.setType(SleeveType.SILICON);
-        sleeve.setCondition(SleeveCondition.NEW);
-        sleeve.setWarehouse(createWarehouse());
-        sleeve.setType(SleeveType.SILICON);
-        sleeve.setColor("Blue");
-        sleeve.setGear(53);
-        sleeve.setSequenceNumber(sequenceNumber);
         sleeve.setId(id);
+        sleeve.setSleeveNumber(request.sleeveNumber());
+        sleeve.setSequenceNumber(request.sequenceNumber());
+        sleeve.setDesign(request.design());
+        sleeve.setColor(request.color());
+        sleeve.setManufacturer(request.manufacturer());
+        sleeve.setNotes(request.notes());
+        sleeve.setGear(request.gear());
+        sleeve.setCircumference(request.circumference());
+        sleeve.setSlot(request.slot());
+        sleeve.setManufactureDate(request.manufactureDate());
+        sleeve.setWidth(request.width());
+        sleeve.setKmStand(request.kmStand());
+        sleeve.setStatus(request.status());
+        sleeve.setType(request.type());
+        sleeve.setCondition(request.condition());
+        sleeve.setWarehouse(createWarehouse());
 
         return sleeve;
+    }
+
+    public static SleeveResponse createSleeveResponse(Long id, SaveSleeveRequest req) {
+        return new SleeveResponse(
+                id,
+                req.sleeveNumber(),
+                req.sequenceNumber(),
+                req.design(),
+                req.color(),
+                req.manufacturer(),
+                req.notes(),
+                req.gear(),
+                req.circumference(),
+                req.slot(),
+                req.manufactureDate(),
+                req.width(),
+                req.kmStand(),
+                createWarehouse(),
+                req.status(),
+                req.type(),
+                req.condition()
+        );
     }
 
 }

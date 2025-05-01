@@ -68,7 +68,7 @@ public class SleeveServiceImplTest {
     }
 
     @Test
-    void test_saveSleeve() {
+    void test_whenValidRequest_thenSaveSleeve() {
         SaveSleeveRequest req = TestDataUtil.createSleeveRequest();
 
 
@@ -115,9 +115,12 @@ public class SleeveServiceImplTest {
     @Test
     void test_whenSequenceNumberExists_thenReturnsSleeveResponse() {
         int sequenceNumber = 42;
+        SaveSleeveRequest sleeveRequest= TestDataUtil.createSleeveRequest();
 
-        Sleeve s1 = TestDataUtil.createSleeve(1L, sequenceNumber);
-        Sleeve s2 = TestDataUtil.createSleeve(2L, sequenceNumber);
+        Sleeve s1 = TestDataUtil.createSleeve(1L, sleeveRequest);
+        s1.setId(1L);
+        Sleeve s2 = TestDataUtil.createSleeve(2L, sleeveRequest);
+        s2.setId(2L);
 
         when(mockSleeverepository.findAllBySequenceNumber(sequenceNumber))
                 .thenReturn(List.of(s1, s2));
@@ -138,5 +141,29 @@ public class SleeveServiceImplTest {
         verify(mockSleeverepository).findAllBySequenceNumber(sequenceNumber);
 
         verify(sleeveMapper, times(2)).toResponse(any(Sleeve.class));
+    }
+
+    @Test
+    void test_whenValidRequest_thenReturnsCorrectSleeveResponse() {
+        SaveSleeveRequest request = TestDataUtil.createSleeveRequest();
+
+        when(mockSleeverepository.existsBySleeveNumber(request.sleeveNumber()))
+                .thenReturn(false);
+
+        Warehouse warehouse = new Warehouse();
+        when(mockWarehouserepository.getWarehouseByName(WarehouseName.valueOf(request.warehouse())))
+                .thenReturn(warehouse);
+
+        Sleeve unsaved = TestDataUtil.createSleeve(null, request);
+        Sleeve saved = TestDataUtil.createSleeve(123L, request);
+        SleeveResponse expected = TestDataUtil.createSleeveResponse(123L, request);
+
+        when(sleeveMapper.toEntity(request)).thenReturn(unsaved);
+        when(mockSleeverepository.save(unsaved)).thenReturn(saved);
+        when(sleeveMapper.toResponse(saved)).thenReturn(expected);
+
+        SleeveResponse actual = serviceToTest.saveSleeve(request);
+
+        assertSame(expected, actual);
     }
 }
