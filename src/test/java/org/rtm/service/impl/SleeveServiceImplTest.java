@@ -68,11 +68,11 @@ public class SleeveServiceImplTest {
     void saveSleeve() {
         SaveSleeveRequest req = TestDataUtil.createSleeveRequest();
 
-        // make the duplicate‐check pass
+
         when(mockSleeverepository.existsBySleeveNumber(req.sleeveNumber()))
                 .thenReturn(false);
 
-        // stub the warehouse lookup so we can get past that line
+
         Warehouse wh = new Warehouse();
         when(mockWarehouserepository.getWarehouseByName(
                 WarehouseName.valueOf(req.warehouse())))
