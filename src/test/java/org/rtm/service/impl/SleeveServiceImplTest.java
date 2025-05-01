@@ -1,19 +1,28 @@
 package org.rtm.service.impl;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.rtm.exception.DuplicateSleeveNumberException;
 import org.rtm.mapper.SleeveMapper;
+import org.rtm.model.dto.request.SaveSleeveRequest;
+import org.rtm.model.entity.Sleeve;
 import org.rtm.repository.SleeveRepository;
 import org.rtm.repository.WarehouseRepository;
+import org.rtm.testutlis.TestDataUtil;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
+
 
 @ExtendWith(MockitoExtension.class)
 public class SleeveServiceImplTest {
 
+    @InjectMocks
     private SleeveServiceImpl serviceToTest;
 
     @Mock
@@ -35,10 +44,17 @@ public class SleeveServiceImplTest {
 
 
     @Test
-    void testMock() {
-        boolean b = mockSleeverepository.existsBySleeveNumber(123456);
+    void whenSleeveNumberAlreadyExists_thenThrowDuplicateException() {
+        SaveSleeveRequest request = TestDataUtil.createSleeveRequest();
 
-        Assertions.assertFalse(b);
+        when(mockSleeverepository.existsBySleeveNumber(request.sleeveNumber())).thenReturn(true);
+
+        assertThrows(DuplicateSleeveNumberException.class,
+                () -> serviceToTest.saveSleeve(request));
+
+        verify(mockSleeverepository).existsBySleeveNumber(request.sleeveNumber());
+
+        verify(mockSleeverepository, never()).save(any());
 
     }
 }

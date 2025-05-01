@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 import org.rtm.model.enums.SleeveCondition;
 import org.rtm.model.enums.SleeveType;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -15,7 +14,6 @@ import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
 @Getter
 @Setter
 @Entity
