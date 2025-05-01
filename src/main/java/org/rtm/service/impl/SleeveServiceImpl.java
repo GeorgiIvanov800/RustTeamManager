@@ -7,6 +7,7 @@ import org.rtm.model.dto.request.SaveSleeveRequest;
 import org.rtm.model.dto.response.SleeveResponse;
 import org.rtm.model.entity.Sleeve;
 import org.rtm.model.entity.Warehouse;
+import org.rtm.model.enums.WarehouseName;
 import org.rtm.repository.SleeveRepository;
 import org.rtm.repository.WarehouseRepository;
 import org.rtm.service.SleeveService;
@@ -30,7 +31,7 @@ public class SleeveServiceImpl implements SleeveService {
         if (sleeveNumberExists(request.sleeveNumber())) {
             throw new DuplicateSleeveNumberException(request.sleeveNumber());
         }
-        Warehouse warehouse = warehouseRepository.getWarehouseByName(request.warehouse().getName());
+        Warehouse warehouse = warehouseRepository.getWarehouseByName(WarehouseName.valueOf(request.warehouse()));
 
         Sleeve sleeve = sleeveMapper.toEntity(request);
         sleeve.setWarehouse(warehouse);
