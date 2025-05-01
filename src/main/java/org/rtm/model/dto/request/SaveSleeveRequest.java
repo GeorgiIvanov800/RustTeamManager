@@ -46,7 +46,7 @@ public record SaveSleeveRequest(
         Long kmStand,
 
         @NotNull(message = "{sleeve.warehouse.required}")
-        Warehouse warehouse,
+        String warehouse,
 
         String status,
 
