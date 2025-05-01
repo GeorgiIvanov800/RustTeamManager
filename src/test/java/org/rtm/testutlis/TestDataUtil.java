@@ -2,6 +2,7 @@ package org.rtm.testutlis;
 
 import org.rtm.model.dto.request.SaveSleeveRequest;
 import org.rtm.model.dto.response.SleeveResponse;
+import org.rtm.model.entity.Sleeve;
 import org.rtm.model.entity.Warehouse;
 import org.rtm.model.enums.SleeveCondition;
 import org.rtm.model.enums.SleeveType;
@@ -62,4 +63,19 @@ public class TestDataUtil {
 
         return warehouse;
     }
+
+    public static Sleeve createSleeve(Long id, int sequenceNumber) {
+        Sleeve sleeve = new Sleeve();
+        sleeve.setType(SleeveType.SILICON);
+        sleeve.setCondition(SleeveCondition.NEW);
+        sleeve.setWarehouse(createWarehouse());
+        sleeve.setType(SleeveType.SILICON);
+        sleeve.setColor("Blue");
+        sleeve.setGear(53);
+        sleeve.setSequenceNumber(sequenceNumber);
+        sleeve.setId(id);
+
+        return sleeve;
+    }
+
 }

@@ -98,7 +98,7 @@ public class SleeveServiceImplTest {
 
     @Test
     void test_whenNoSleevesFound_thenReturnsEmptyList() {
-        int sequenceNumber = 123456;
+        int sequenceNumber = 42;
 
         when(mockSleeverepository.findAllBySequenceNumber(sequenceNumber))
                 .thenReturn(Collections.emptyList());
@@ -110,5 +110,33 @@ public class SleeveServiceImplTest {
         assertTrue(result.isEmpty());
         verify(mockSleeverepository).findAllBySequenceNumber(sequenceNumber);
         verifyNoInteractions(sleeveMapper);
+    }
+
+    @Test
+    void test_whenSequenceNumberExists_thenReturnsSleeveResponse() {
+        int sequenceNumber = 42;
+
+        Sleeve s1 = TestDataUtil.createSleeve(1L, sequenceNumber);
+        Sleeve s2 = TestDataUtil.createSleeve(2L, sequenceNumber);
+
+        when(mockSleeverepository.findAllBySequenceNumber(sequenceNumber))
+                .thenReturn(List.of(s1, s2));
+
+        List<SleeveResponse> result = serviceToTest.getSleevesBySleeveSequenceNumber(sequenceNumber);
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+
+        SleeveResponse r1 = result.getFirst();
+        assertEquals(s1.getId(), r1.id());
+        assertEquals(s1.getSequenceNumber(), r1.sequenceNumber());
+
+        SleeveResponse r2 = result.getLast();
+        assertEquals(s2.getId(), r2.id());
+        assertEquals(s2.getSequenceNumber(), r2.sequenceNumber());
+
+        verify(mockSleeverepository).findAllBySequenceNumber(sequenceNumber);
+
+        verify(sleeveMapper, times(2)).toResponse(any(Sleeve.class));
     }
 }
