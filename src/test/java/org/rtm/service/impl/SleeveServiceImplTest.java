@@ -20,6 +20,9 @@ import org.rtm.repository.SleeveRepository;
 import org.rtm.repository.WarehouseRepository;
 import org.rtm.testutlis.TestDataUtil;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -50,7 +53,7 @@ public class SleeveServiceImplTest {
 
 
     @Test
-    void whenSleeveNumberAlreadyExists_thenThrowDuplicateException() {
+    void test_whenSleeveNumberAlreadyExists_thenThrowDuplicateException() {
         SaveSleeveRequest request = TestDataUtil.createSleeveRequest();
 
         when(mockSleeverepository.existsBySleeveNumber(request.sleeveNumber())).thenReturn(true);
@@ -65,7 +68,7 @@ public class SleeveServiceImplTest {
     }
 
     @Test
-    void saveSleeve() {
+    void test_saveSleeve() {
         SaveSleeveRequest req = TestDataUtil.createSleeveRequest();
 
 
@@ -93,4 +96,19 @@ public class SleeveServiceImplTest {
 
     }
 
+    @Test
+    void test_whenNoSleevesFound_thenReturnsEmptyList() {
+        int sequenceNumber = 123456;
+
+        when(mockSleeverepository.findAllBySequenceNumber(sequenceNumber))
+                .thenReturn(Collections.emptyList());
+
+        List<SleeveResponse> result = serviceToTest
+                .getSleevesBySleeveSequenceNumber(sequenceNumber);
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(mockSleeverepository).findAllBySequenceNumber(sequenceNumber);
+        verifyNoInteractions(sleeveMapper);
+    }
 }
