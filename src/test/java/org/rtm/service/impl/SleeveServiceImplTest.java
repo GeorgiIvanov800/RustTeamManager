@@ -73,10 +73,10 @@ public class SleeveServiceImplTest {
                 .thenReturn(false);
 
 
-        Warehouse wh = new Warehouse();
+        Warehouse warehouse = new Warehouse();
         when(mockWarehouserepository.getWarehouseByName(
                 WarehouseName.valueOf(req.warehouse())))
-                .thenReturn(wh);
+                .thenReturn(warehouse);
 
         when(mockSleeverepository.save(any(Sleeve.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
@@ -89,7 +89,7 @@ public class SleeveServiceImplTest {
         Sleeve saved = captor.getValue();
 
         assertEquals(req.sleeveNumber(), saved.getSleeveNumber());
-        assertSame(wh, saved.getWarehouse());
+        assertSame(warehouse, saved.getWarehouse());
 
     }
 
