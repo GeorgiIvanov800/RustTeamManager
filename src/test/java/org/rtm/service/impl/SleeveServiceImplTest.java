@@ -1,7 +1,6 @@
 package org.rtm.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
@@ -21,8 +20,7 @@ import org.rtm.repository.SleeveRepository;
 import org.rtm.repository.WarehouseRepository;
 import org.rtm.testutlis.TestDataUtil;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -35,10 +33,10 @@ public class SleeveServiceImplTest {
     private SleeveServiceImpl serviceToTest;
 
     @Mock
-    private SleeveRepository mockSleeverepository;
+    private SleeveRepository mockSleeveRepository;
 
     @Mock
-    private WarehouseRepository mockWarehouserepository;
+    private WarehouseRepository mockWarehouseRepository;
 
     @Spy
     private SleeveMapper sleeveMapper = Mappers.getMapper(SleeveMapper.class);
@@ -51,14 +49,14 @@ public class SleeveServiceImplTest {
     void test_whenSleeveNumberAlreadyExists_thenThrowDuplicateException() {
         SaveSleeveRequest request = TestDataUtil.createSleeveRequest();
 
-        when(mockSleeverepository.existsBySleeveNumber(request.sleeveNumber())).thenReturn(true);
+        when(mockSleeveRepository.existsBySleeveNumber(request.sleeveNumber())).thenReturn(true);
 
         assertThrows(DuplicateSleeveNumberException.class,
                 () -> serviceToTest.saveSleeve(request));
 
-        verify(mockSleeverepository).existsBySleeveNumber(request.sleeveNumber());
+        verify(mockSleeveRepository).existsBySleeveNumber(request.sleeveNumber());
 
-        verify(mockSleeverepository, never()).save(any());
+        verify(mockSleeveRepository, never()).save(any());
 
     }
 
@@ -67,22 +65,22 @@ public class SleeveServiceImplTest {
         SaveSleeveRequest req = TestDataUtil.createSleeveRequest();
 
 
-        when(mockSleeverepository.existsBySleeveNumber(req.sleeveNumber()))
+        when(mockSleeveRepository.existsBySleeveNumber(req.sleeveNumber()))
                 .thenReturn(false);
 
 
         Warehouse warehouse = new Warehouse();
-        when(mockWarehouserepository.getWarehouseByName(
+        when(mockWarehouseRepository.getWarehouseByName(
                 WarehouseName.valueOf(req.warehouse())))
                 .thenReturn(warehouse);
 
-        when(mockSleeverepository.save(any(Sleeve.class)))
+        when(mockSleeveRepository.save(any(Sleeve.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
         SleeveResponse response = serviceToTest.saveSleeve(req);
 
         ArgumentCaptor<Sleeve> captor = ArgumentCaptor.forClass(Sleeve.class);
-        verify(mockSleeverepository).save(captor.capture());
+        verify(mockSleeveRepository).save(captor.capture());
 
         Sleeve saved = captor.getValue();
 
@@ -95,7 +93,7 @@ public class SleeveServiceImplTest {
     void test_whenNoSleevesFound_thenReturnsEmptyList() {
         int sequenceNumber = 42;
 
-        when(mockSleeverepository.findAllBySequenceNumber(sequenceNumber))
+        when(mockSleeveRepository.findAllBySequenceNumber(sequenceNumber))
                 .thenReturn(Collections.emptyList());
 
         List<SleeveResponse> result = serviceToTest
@@ -103,7 +101,7 @@ public class SleeveServiceImplTest {
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
-        verify(mockSleeverepository).findAllBySequenceNumber(sequenceNumber);
+        verify(mockSleeveRepository).findAllBySequenceNumber(sequenceNumber);
         verifyNoInteractions(sleeveMapper);
     }
 
@@ -112,12 +110,12 @@ public class SleeveServiceImplTest {
         int sequenceNumber = 42;
         SaveSleeveRequest sleeveRequest= TestDataUtil.createSleeveRequest();
 
-        Sleeve s1 = TestDataUtil.createSleeve(1L, sleeveRequest);
+        Sleeve s1 = TestDataUtil.createSleeveFromRequest(1L, sleeveRequest);
         s1.setId(1L);
-        Sleeve s2 = TestDataUtil.createSleeve(2L, sleeveRequest);
+        Sleeve s2 = TestDataUtil.createSleeveFromRequest(2L, sleeveRequest);
         s2.setId(2L);
 
-        when(mockSleeverepository.findAllBySequenceNumber(sequenceNumber))
+        when(mockSleeveRepository.findAllBySequenceNumber(sequenceNumber))
                 .thenReturn(List.of(s1, s2));
 
         List<SleeveResponse> result = serviceToTest.getSleevesBySleeveSequenceNumber(sequenceNumber);
@@ -133,7 +131,7 @@ public class SleeveServiceImplTest {
         assertEquals(s2.getId(), r2.id());
         assertEquals(s2.getSequenceNumber(), r2.sequenceNumber());
 
-        verify(mockSleeverepository).findAllBySequenceNumber(sequenceNumber);
+        verify(mockSleeveRepository).findAllBySequenceNumber(sequenceNumber);
 
         verify(sleeveMapper, times(2)).toResponse(any(Sleeve.class));
     }
@@ -142,23 +140,51 @@ public class SleeveServiceImplTest {
     void test_whenValidRequest_thenReturnsCorrectSleeveResponse() {
         SaveSleeveRequest request = TestDataUtil.createSleeveRequest();
 
-        when(mockSleeverepository.existsBySleeveNumber(request.sleeveNumber()))
+        when(mockSleeveRepository.existsBySleeveNumber(request.sleeveNumber()))
                 .thenReturn(false);
 
         Warehouse warehouse = new Warehouse();
-        when(mockWarehouserepository.getWarehouseByName(WarehouseName.valueOf(request.warehouse())))
+        when(mockWarehouseRepository.getWarehouseByName(WarehouseName.valueOf(request.warehouse())))
                 .thenReturn(warehouse);
 
-        Sleeve unsaved = TestDataUtil.createSleeve(null, request);
-        Sleeve saved = TestDataUtil.createSleeve(123L, request);
+        Sleeve unsaved = TestDataUtil.createSleeveFromRequest(null, request);
+        Sleeve saved = TestDataUtil.createSleeveFromRequest(123L, request);
         SleeveResponse expected = TestDataUtil.createSleeveResponse(123L, request);
 
         when(sleeveMapper.toEntity(request)).thenReturn(unsaved);
-        when(mockSleeverepository.save(unsaved)).thenReturn(saved);
+        when(mockSleeveRepository.save(unsaved)).thenReturn(saved);
         when(sleeveMapper.toResponse(saved)).thenReturn(expected);
 
         SleeveResponse actual = serviceToTest.saveSleeve(request);
 
         assertSame(expected, actual);
+    }
+
+    @Test
+    void test_updateSleeve_whenValidUpdated_thenMergeFieldsAndSave() {
+        Sleeve exisitngSleeve = TestDataUtil.createSleeve();
+        Warehouse warehouse = TestDataUtil.createWarehouse("L3");
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("color", "red");
+        updates.put("kmStand", 13000L);
+        updates.put("slot", 5);
+        updates.put("warehouse", "L1");
+
+        when(mockWarehouseRepository.getWarehouseByName(WarehouseName.L1))
+                .thenReturn(warehouse);
+
+        when(mockSleeveRepository.findById(1L))
+                .thenReturn(Optional.of(exisitngSleeve));
+
+        when(mockSleeveRepository.save(any(Sleeve.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
+        Sleeve updatedSleeve = serviceToTest.updateSleeve(1L, updates);
+
+        assertEquals("red",      updatedSleeve.getColor());
+        assertEquals(13000L,     updatedSleeve.getKmStand());
+        assertEquals(5,          updatedSleeve.getSlot());
+        assertSame(warehouse, updatedSleeve.getWarehouse());
     }
 }

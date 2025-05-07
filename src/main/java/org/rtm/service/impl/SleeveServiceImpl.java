@@ -62,6 +62,15 @@ public class SleeveServiceImpl implements SleeveService {
     public Sleeve updateSleeve(Long id, Map<String, Object> updates) {
         Sleeve sleeve = sleeveRepository.findById(id).orElseThrow( () -> new EntityNotFoundException("No Sleeve with ID: " + id));
 
+        if (updates.containsKey("warehouse")) {
+            String warehouseName = updates.remove("warehouse").toString();
+
+            Warehouse warehouse = warehouseRepository.
+                    getWarehouseByName(WarehouseName.valueOf(warehouseName));
+
+            sleeve.setWarehouse(warehouse);
+        }
+
         try {
             objectMapper.updateValue(sleeve, updates);
         } catch (JsonMappingException e) {
