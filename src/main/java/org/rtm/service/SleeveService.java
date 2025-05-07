@@ -14,4 +14,6 @@ public interface SleeveService {
     List<SleeveResponse> getSleevesBySleeveSequenceNumber(Integer sleeveSequenceNumber);
 
     Sleeve updateSleeve(Long id, Map<String, Object> updateSleeveRequest);
+
+    void deleteSleeve(Long id);
 }

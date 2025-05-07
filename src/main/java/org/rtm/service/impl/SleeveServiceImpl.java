@@ -61,6 +61,11 @@ public class SleeveServiceImpl implements SleeveService {
         return sleeveRepository.save(sleeve);
     }
 
+    @Override
+    public void deleteSleeve(Long id) {
+        sleeveRepository.deleteById(id);
+    }
+
 
     private boolean sleeveNumberExists(Integer sleeveNumber) {
         return sleeveRepository.existsBySleeveNumber(sleeveNumber);
