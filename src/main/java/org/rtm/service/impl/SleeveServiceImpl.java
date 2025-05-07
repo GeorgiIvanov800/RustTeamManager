@@ -1,5 +1,6 @@
 package org.rtm.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.rtm.exception.DuplicateSleeveNumberException;
 import org.rtm.mapper.SleeveMapper;
@@ -12,9 +13,10 @@ import org.rtm.repository.SleeveRepository;
 import org.rtm.repository.WarehouseRepository;
 import org.rtm.service.SleeveService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+import java.util.Map;
 
 
 @Service
@@ -26,13 +28,17 @@ public class SleeveServiceImpl implements SleeveService {
     private final WarehouseRepository warehouseRepository;
 
     @Override
+    @Transactional
     public SleeveResponse saveSleeve(SaveSleeveRequest request) {
 
         if (sleeveNumberExists(request.sleeveNumber())) {
             throw new DuplicateSleeveNumberException(request.sleeveNumber());
         }
+
         Warehouse warehouse = warehouseRepository.
                 getWarehouseByName(WarehouseName.valueOf(request.warehouse()));
+        Warehouse warehouse = warehouseRepository.getWarehouseByName(WarehouseName.valueOf(request.warehouse()));
+
 
         Sleeve sleeve = sleeveMapper.toEntity(request);
         sleeve.setWarehouse(warehouse);
@@ -48,6 +54,20 @@ public class SleeveServiceImpl implements SleeveService {
         return sleeves.stream()
                 .map(sleeveMapper::toResponse)
                 .toList();
+    }
+
+    @Override
+    public Sleeve updateSleeve(Long id, Map<String, Object> updateSleeveRequest) {
+        Sleeve sleeve = sleeveRepository.findById(id).orElseThrow( () -> new EntityNotFoundException("No Sleeve with ID: " + id));
+
+        sleeveMapper.updateSleeve(sleeve);
+
+        return sleeveRepository.save(sleeve);
+    }
+
+    @Override
+    public void deleteSleeve(Long id) {
+        sleeveRepository.deleteById(id);
     }
 
 

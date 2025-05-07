@@ -3,12 +3,14 @@ package org.rtm.web;
 import lombok.RequiredArgsConstructor;
 import org.rtm.model.dto.request.SaveSleeveRequest;
 import org.rtm.model.dto.response.SleeveResponse;
+import org.rtm.model.entity.Sleeve;
 import org.rtm.service.SleeveService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("sleeves")
@@ -32,8 +34,24 @@ public class SleeveController {
 
     @GetMapping()
     public ResponseEntity<List<SleeveResponse>> getSleeveSequenceNumber(
-            @RequestParam(value = "sequenceNumber", required = true) Integer sequenceNumber
+            @RequestParam(value = "sequenceNumber") Integer sequenceNumber
     ) {
         return ResponseEntity.ok(sleeveService.getSleevesBySleeveSequenceNumber(sequenceNumber));
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Sleeve> updateSleeve(
+            @PathVariable("id") Long id,
+            @RequestBody Map<String, Object> updateSleeveRequest
+            ) {
+        return ResponseEntity.ok(sleeveService.updateSleeve(id, updateSleeveRequest));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<SleeveResponse> deleteSleeve(@PathVariable("id") Long id) {
+        sleeveService.deleteSleeve(id);
+        return ResponseEntity.noContent().build();
+
+    }
+
 }
