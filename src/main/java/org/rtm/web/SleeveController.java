@@ -42,9 +42,9 @@ public class SleeveController {
     @PatchMapping("/{id}")
     public ResponseEntity<Sleeve> updateSleeve(
             @PathVariable("id") Long id,
-            @RequestBody Map<String, Object> updateSleeveRequest
+            @RequestBody Map<String, Object> updates
             ) {
-        return ResponseEntity.ok(sleeveService.updateSleeve(id, updateSleeveRequest));
+        return ResponseEntity.ok(sleeveService.updateSleeve(id, updates));
     }
 
     @DeleteMapping("/{id}")

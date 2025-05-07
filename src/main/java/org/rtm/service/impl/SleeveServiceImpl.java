@@ -1,5 +1,7 @@
 package org.rtm.service.impl;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.rtm.exception.DuplicateSleeveNumberException;
@@ -26,6 +28,7 @@ public class SleeveServiceImpl implements SleeveService {
     private final SleeveRepository sleeveRepository;
     private final SleeveMapper sleeveMapper;
     private final WarehouseRepository warehouseRepository;
+    private final ObjectMapper objectMapper;
 
     @Override
     @Transactional
@@ -37,7 +40,6 @@ public class SleeveServiceImpl implements SleeveService {
 
         Warehouse warehouse = warehouseRepository.
                 getWarehouseByName(WarehouseName.valueOf(request.warehouse()));
-        Warehouse warehouse = warehouseRepository.getWarehouseByName(WarehouseName.valueOf(request.warehouse()));
 
 
         Sleeve sleeve = sleeveMapper.toEntity(request);
@@ -57,10 +59,14 @@ public class SleeveServiceImpl implements SleeveService {
     }
 
     @Override
-    public Sleeve updateSleeve(Long id, Map<String, Object> updateSleeveRequest) {
+    public Sleeve updateSleeve(Long id, Map<String, Object> updates) {
         Sleeve sleeve = sleeveRepository.findById(id).orElseThrow( () -> new EntityNotFoundException("No Sleeve with ID: " + id));
 
-        sleeveMapper.updateSleeve(sleeve);
+        try {
+            objectMapper.updateValue(sleeve, updates);
+        } catch (JsonMappingException e) {
+            throw new RuntimeException(e);
+        }
 
         return sleeveRepository.save(sleeve);
     }

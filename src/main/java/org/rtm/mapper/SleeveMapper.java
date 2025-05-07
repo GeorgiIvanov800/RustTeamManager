@@ -16,6 +16,4 @@ public interface SleeveMapper {
 
     SleeveResponse toResponse(Sleeve sleeve);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateSleeve(Sleeve sleeve);
 }
