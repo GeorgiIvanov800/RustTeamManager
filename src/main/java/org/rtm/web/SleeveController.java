@@ -34,7 +34,7 @@ public class SleeveController {
 
     @GetMapping()
     public ResponseEntity<List<SleeveResponse>> getSleeveSequenceNumber(
-            @RequestParam(value = "sequenceNumber", required = true) Integer sequenceNumber
+            @RequestParam(value = "sequenceNumber") Integer sequenceNumber
     ) {
         return ResponseEntity.ok(sleeveService.getSleevesBySleeveSequenceNumber(sequenceNumber));
     }
