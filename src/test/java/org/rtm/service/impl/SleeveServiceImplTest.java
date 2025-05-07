@@ -1,5 +1,6 @@
 package org.rtm.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,14 +43,8 @@ public class SleeveServiceImplTest {
     @Spy
     private SleeveMapper sleeveMapper = Mappers.getMapper(SleeveMapper.class);
 
-    @BeforeEach
-    void setUp() {
-        serviceToTest = new SleeveServiceImpl(
-                mockSleeverepository,
-                sleeveMapper,
-                mockWarehouserepository
-        );
-    }
+    @Spy
+    private ObjectMapper objectMapper = new ObjectMapper();
 
 
     @Test
