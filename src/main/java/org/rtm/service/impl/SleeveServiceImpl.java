@@ -1,5 +1,6 @@
 package org.rtm.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.rtm.exception.DuplicateSleeveNumberException;
 import org.rtm.mapper.SleeveMapper;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+import java.util.Map;
 
 
 @Service
@@ -49,6 +50,15 @@ public class SleeveServiceImpl implements SleeveService {
         return sleeves.stream()
                 .map(sleeveMapper::toResponse)
                 .toList();
+    }
+
+    @Override
+    public Sleeve updateSleeve(Long id, Map<String, Object> updateSleeveRequest) {
+        Sleeve sleeve = sleeveRepository.findById(id).orElseThrow( () -> new EntityNotFoundException("No Sleeve with ID: " + id));
+
+        sleeveMapper.updateSleeve(sleeve);
+
+        return sleeveRepository.save(sleeve);
     }
 
 
