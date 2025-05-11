@@ -186,5 +186,6 @@ public class SleeveServiceImplTest {
         assertEquals(13000L,     updatedSleeve.getKmStand());
         assertEquals(5,          updatedSleeve.getSlot());
         assertSame(warehouse, updatedSleeve.getWarehouse());
+        verify(mockSleeveRepository, times(1)).save(any(Sleeve.class));
     }
 }
