@@ -1,8 +1,10 @@
 package org.rtm.web.handler;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.rtm.exception.DuplicatePersonalNumberException;
 import org.rtm.exception.DuplicateSleeveNumberException;
+import org.rtm.exception.NotFoundException;
 import org.rtm.model.dto.error.ApiErrorResponse;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -25,7 +27,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicatePersonalNumberException.class)
     public ResponseEntity<ApiErrorResponse> handleDuplicatePersonalNumberException(DuplicatePersonalNumberException ex) {
         Locale locale = LocaleContextHolder.getLocale();
-        String msg = messageSource.getMessage(ex.getMessage(),ex.getArgs(), locale);
+        String msg = messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale);
 
         ApiErrorResponse body = new ApiErrorResponse(
                 "409",
@@ -33,7 +35,7 @@ public class GlobalExceptionHandler {
                 Instant.now(),
                 Map.of("personalNumber", ex.getArgs()[0])
         );
-            return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(DuplicateSleeveNumberException.class)
@@ -48,5 +50,20 @@ public class GlobalExceptionHandler {
                 Map.of("sleeveNumber", ex.getArgs()[0])
         );
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleEntityNotFoundException(NotFoundException ex) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String msg = messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale);
+
+        ApiErrorResponse body = new ApiErrorResponse(
+                "404",
+                msg,
+                Instant.now(),
+                Map.of("sleeveNumber", ex.getArgs()[0])
+        );
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 }
