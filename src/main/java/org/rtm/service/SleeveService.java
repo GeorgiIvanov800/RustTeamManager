@@ -3,6 +3,9 @@ package org.rtm.service;
 import org.rtm.model.dto.request.SaveSleeveRequest;
 import org.rtm.model.dto.response.SleeveResponse;
 import org.rtm.model.entity.Sleeve;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 
 
 import java.util.List;
@@ -16,4 +19,6 @@ public interface SleeveService {
     Sleeve updateSleeve(Long id, Map<String, Object> updateSleeveRequest);
 
     void deleteSleeve(Long id);
+
+    Page<SleeveResponse> getAllSleevesInWarehouse(Pageable pageable, Long warehouseId);
 }

@@ -14,6 +14,9 @@ import org.rtm.model.enums.WarehouseName;
 import org.rtm.repository.SleeveRepository;
 import org.rtm.repository.WarehouseRepository;
 import org.rtm.service.SleeveService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,6 +86,12 @@ public class SleeveServiceImpl implements SleeveService {
     @Override
     public void deleteSleeve(Long id) {
         sleeveRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<SleeveResponse> getAllSleevesInWarehouse(Pageable pageable, Long warehouseId) {
+        return sleeveRepository.findAllByWarehouseId(warehouseId, pageable)
+                .map(sleeveMapper::toResponse);
     }
 
 
