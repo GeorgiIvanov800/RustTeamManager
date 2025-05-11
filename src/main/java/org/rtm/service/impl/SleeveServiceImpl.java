@@ -2,7 +2,6 @@ package org.rtm.service.impl;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.rtm.exception.DuplicateSleeveNumberException;
 import org.rtm.exception.NotFoundException;
