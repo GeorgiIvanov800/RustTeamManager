@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.rtm.exception.DuplicateSleeveNumberException;
+import org.rtm.exception.NotFoundException;
 import org.rtm.mapper.SleeveMapper;
 import org.rtm.model.dto.request.SaveSleeveRequest;
 import org.rtm.model.dto.response.SleeveResponse;
@@ -62,7 +63,7 @@ public class SleeveServiceImpl implements SleeveService {
 
     @Override
     public Sleeve updateSleeve(Long id, Map<String, Object> updates) {
-        Sleeve sleeve = sleeveRepository.findById(id).orElseThrow( () -> new EntityNotFoundException("No Sleeve with ID: " + id));
+        Sleeve sleeve = sleeveRepository.findById(id).orElseThrow( () -> new NotFoundException(Math.toIntExact(id)));
 
         if (updates.containsKey("warehouse")) {
             String warehouseName = updates.remove("warehouse").toString();
@@ -98,7 +99,7 @@ public class SleeveServiceImpl implements SleeveService {
         Sleeve sleeve = sleeveRepository
                 .findBySleeveNumber(sleeveNumber)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("No Sleeve with sleeveNumber: " + sleeveNumber)
+                        new NotFoundException(sleeveNumber)
                 );
         return sleeveMapper.toResponse(sleeve);
     }

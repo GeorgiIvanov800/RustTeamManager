@@ -1,6 +1,5 @@
 package org.rtm.web.handler;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.rtm.exception.DuplicatePersonalNumberException;
 import org.rtm.exception.DuplicateSleeveNumberException;
