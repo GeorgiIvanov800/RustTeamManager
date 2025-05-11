@@ -56,15 +56,15 @@ public class TestDataUtil {
         );
     }
 
-    public static Warehouse createWarehouse() {
+    public static Warehouse createWarehouse(String name) {
         Warehouse warehouse = new Warehouse();
-        warehouse.setName(WarehouseName.L3);
+        warehouse.setName(WarehouseName.valueOf(name));
         warehouse.setId(1L);
 
         return warehouse;
     }
 
-    public static Sleeve createSleeve(Long id, SaveSleeveRequest request) {
+    public static Sleeve createSleeveFromRequest(Long id, SaveSleeveRequest request) {
         Sleeve sleeve = new Sleeve();
         sleeve.setId(id);
         sleeve.setSleeveNumber(request.sleeveNumber());
@@ -82,7 +82,7 @@ public class TestDataUtil {
         sleeve.setStatus(request.status());
         sleeve.setType(request.type());
         sleeve.setCondition(request.condition());
-        sleeve.setWarehouse(createWarehouse());
+        sleeve.setWarehouse(createWarehouse("L3"));
 
         return sleeve;
     }
@@ -102,11 +102,33 @@ public class TestDataUtil {
                 req.manufactureDate(),
                 req.width(),
                 req.kmStand(),
-                createWarehouse(),
+                createWarehouse("L3"),
                 req.status(),
                 req.type(),
                 req.condition()
         );
     }
 
+    public static Sleeve createSleeve() {
+        Sleeve sleeve = new Sleeve();
+        sleeve.setId(1L);
+        sleeve.setSleeveNumber(145369);
+        sleeve.setSequenceNumber(100);
+        sleeve.setDesign("SpiralDesign");
+        sleeve.setColor("Blau");
+        sleeve.setManufacturer("Manschetten GmbH");
+        sleeve.setNotes("");
+        sleeve.setGear(12);
+        sleeve.setCircumference(25);
+        sleeve.setSlot(1);
+        sleeve.setManufactureDate(LocalDate.of(2025,4,20));
+        sleeve.setWidth(100);
+        sleeve.setType(SleeveType.SILICON);
+        sleeve.setCondition(SleeveCondition.NEW);
+        sleeve.setWarehouse(createWarehouse("L3"));
+        sleeve.setStatus("ACTIVE");
+        sleeve.setKmStand(12000L);
+
+        return sleeve;
+    }
 }
