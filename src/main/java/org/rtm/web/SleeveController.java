@@ -39,7 +39,7 @@ public class SleeveController {
         return ResponseEntity.ok(sleeveService.getSleevesBySleeveSequenceNumber(sequenceNumber));
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("update/{id}")
     public ResponseEntity<Sleeve> updateSleeve(
             @PathVariable("id") Long id,
             @RequestBody Map<String, Object> updates
@@ -47,7 +47,7 @@ public class SleeveController {
         return ResponseEntity.ok(sleeveService.updateSleeve(id, updates));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<SleeveResponse> deleteSleeve(@PathVariable("id") Long id) {
         sleeveService.deleteSleeve(id);
         return ResponseEntity.noContent().build();
