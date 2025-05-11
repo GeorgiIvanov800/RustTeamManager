@@ -16,7 +16,6 @@ import org.rtm.repository.WarehouseRepository;
 import org.rtm.service.SleeveService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,6 +93,15 @@ public class SleeveServiceImpl implements SleeveService {
                 .map(sleeveMapper::toResponse);
     }
 
+    @Override
+    public SleeveResponse getSleeveBySleeveByNumber(Integer sleeveNumber) {
+        Sleeve sleeve = sleeveRepository
+                .findBySleeveNumber(sleeveNumber)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("No Sleeve with sleeveNumber: " + sleeveNumber)
+                );
+        return sleeveMapper.toResponse(sleeve);
+    }
 
     private boolean sleeveNumberExists(Integer sleeveNumber) {
         return sleeveRepository.existsBySleeveNumber(sleeveNumber);

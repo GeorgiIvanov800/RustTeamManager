@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -37,11 +36,26 @@ public class SleeveController {
 
     }
 
-    @GetMapping("/{sleeve-sequence}")
+    @GetMapping("")
     public ResponseEntity<List<SleeveResponse>> getSleeveSequenceNumber(
-            @PathVariable("sleeve-sequence") Integer sequenceNumber
+            @RequestParam("sequence") Integer sequenceNumber
     ) {
-        return ResponseEntity.ok(sleeveService.getSleevesBySleeveSequenceNumber(sequenceNumber));
+        List<SleeveResponse> result = sleeveService.getSleevesBySleeveSequenceNumber(sequenceNumber);
+
+        if (result.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/{sleeveNumber}")
+    public ResponseEntity<SleeveResponse> getSleeveNumber(
+            @PathVariable Integer sleeveNumber
+    ) {
+        SleeveResponse response = sleeveService.getSleeveBySleeveByNumber(sleeveNumber);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{warehouseId}/sleeves")
