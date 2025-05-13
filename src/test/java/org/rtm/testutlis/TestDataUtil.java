@@ -2,6 +2,7 @@ package org.rtm.testutlis;
 
 import org.rtm.model.dto.request.SaveSleeveRequest;
 import org.rtm.model.dto.response.SleeveResponse;
+import org.rtm.model.dto.response.WarehouseResponse;
 import org.rtm.model.entity.Sleeve;
 import org.rtm.model.entity.Warehouse;
 import org.rtm.model.enums.SleeveCondition;
@@ -49,7 +50,7 @@ public class TestDataUtil {
                 LocalDate.of(2025,4,20),
                 50,
                 12000L,
-                new Warehouse(),
+                new WarehouseResponse(1L,WarehouseName.L3),
                 "ACTIVE",
                 SleeveType.SILICON,
                 SleeveCondition.NEW
@@ -102,7 +103,7 @@ public class TestDataUtil {
                 req.manufactureDate(),
                 req.width(),
                 req.kmStand(),
-                createWarehouse("L3"),
+                new WarehouseResponse(1L,WarehouseName.L3),
                 req.status(),
                 req.type(),
                 req.condition()

@@ -36,7 +36,7 @@ public class SleeveController {
 
     }
 
-    @GetMapping("")
+    @GetMapping("/satz")
     public ResponseEntity<List<SleeveResponse>> getSleeveSequenceNumber(
             @RequestParam("sequence") Integer sequenceNumber
     ) {
@@ -61,12 +61,10 @@ public class SleeveController {
     @GetMapping("/{warehouseId}/sleeves")
     public ResponseEntity<Page<SleeveResponse>> getAllSleevesInWarehouse(
             @PageableDefault(
-                    size = 3,
-                    sort = "id",
-                    direction = Sort.Direction.DESC
+                    size = 3
             ) Pageable pageable,
             @PathVariable("warehouseId") Long warehouseId) {
-
+        System.out.println();
         return ResponseEntity.ok(sleeveService.getAllSleevesInWarehouse(pageable, warehouseId));
     }
 

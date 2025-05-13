@@ -20,7 +20,7 @@ public record SleeveResponse(
         LocalDate manufactureDate,
         Integer width,
         Long kmStand,
-        Warehouse warehouse,
+        WarehouseResponse warehouse,
         String status,
         SleeveType type,
         SleeveCondition condition
