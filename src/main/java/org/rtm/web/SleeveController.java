@@ -36,7 +36,7 @@ public class SleeveController {
 
     }
 
-    @GetMapping("/satz")
+    @GetMapping("")
     public ResponseEntity<List<SleeveResponse>> getSleeveSequenceNumber(
             @RequestParam("sequence") Integer sequenceNumber
     ) {
@@ -64,16 +64,17 @@ public class SleeveController {
                     size = 3
             ) Pageable pageable,
             @PathVariable("warehouseId") Long warehouseId) {
-        System.out.println();
+
         return ResponseEntity.ok(sleeveService.getAllSleevesInWarehouse(pageable, warehouseId));
     }
 
 
     @PatchMapping("update/{id}")
-    public ResponseEntity<Sleeve> updateSleeve(
+    public ResponseEntity<SleeveResponse> updateSleeve(
             @PathVariable("id") Long id,
             @RequestBody Map<String, Object> updates
     ) {
+        System.out.println();
         return ResponseEntity.ok(sleeveService.updateSleeve(id, updates));
     }
 

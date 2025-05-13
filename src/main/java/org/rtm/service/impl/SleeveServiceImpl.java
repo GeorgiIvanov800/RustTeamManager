@@ -61,7 +61,7 @@ public class SleeveServiceImpl implements SleeveService {
     }
 
     @Override
-    public Sleeve updateSleeve(Long id, Map<String, Object> updates) {
+    public SleeveResponse updateSleeve(Long id, Map<String, Object> updates) {
         Sleeve sleeve = sleeveRepository.findById(id).orElseThrow( () -> new NotFoundException(Math.toIntExact(id)));
 
         if (updates.containsKey("warehouse")) {
@@ -79,7 +79,8 @@ public class SleeveServiceImpl implements SleeveService {
             throw new RuntimeException(e);
         }
 
-        return sleeveRepository.save(sleeve);
+        sleeveRepository.save(sleeve);
+        return sleeveMapper.toResponse(sleeve);
     }
 
     @Override

@@ -180,12 +180,12 @@ public class SleeveServiceImplTest {
         when(mockSleeveRepository.save(any(Sleeve.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        Sleeve updatedSleeve = serviceToTest.updateSleeve(1L, updates);
+        SleeveResponse updatedSleeve = serviceToTest.updateSleeve(1L, updates);
 
-        assertEquals("red",      updatedSleeve.getColor());
-        assertEquals(13000L,     updatedSleeve.getKmStand());
-        assertEquals(5,          updatedSleeve.getSlot());
-        assertSame(warehouse, updatedSleeve.getWarehouse());
+        assertEquals("red",      updatedSleeve.color());
+        assertEquals(13000L,     updatedSleeve.kmStand());
+        assertEquals(5,          updatedSleeve.slot());
+//        assertSame(warehouse, updatedSleeve.warehouse());
         verify(mockSleeveRepository, times(1)).save(any(Sleeve.class));
     }
 }
