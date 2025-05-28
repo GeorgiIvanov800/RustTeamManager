@@ -2,7 +2,7 @@ package org.rtm.model.enums;
 
 public enum SleeveType {
     PAINT,
-    SILICON,
+    FLAT,
     LACK,
     NON_FLAT //RabotSilicon
 }

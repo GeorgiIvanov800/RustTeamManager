@@ -3,11 +3,9 @@ package org.rtm.web;
 import lombok.RequiredArgsConstructor;
 import org.rtm.model.dto.request.SaveSleeveRequest;
 import org.rtm.model.dto.response.SleeveResponse;
-import org.rtm.model.entity.Sleeve;
 import org.rtm.service.SleeveService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +56,7 @@ public class SleeveController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{warehouseId}/sleeves")
+    @GetMapping("warehouse/{warehouseId}")
     public ResponseEntity<Page<SleeveResponse>> getAllSleevesInWarehouse(
             @PageableDefault(
                     size = 3
@@ -74,7 +72,7 @@ public class SleeveController {
             @PathVariable("id") Long id,
             @RequestBody Map<String, Object> updates
     ) {
-        System.out.println();
+
         return ResponseEntity.ok(sleeveService.updateSleeve(id, updates));
     }
 

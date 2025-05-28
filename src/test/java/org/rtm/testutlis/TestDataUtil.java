@@ -30,7 +30,7 @@ public class TestDataUtil {
                 12000L,                       // kmStand
                 "L3",                         // warehouse
                 "IN_STOCK",                   // status
-                SleeveType.SILICON,          // type
+                SleeveType.FLAT,          // type
                 SleeveCondition.NEW          // condition
         );
     }
@@ -52,7 +52,7 @@ public class TestDataUtil {
                 12000L,
                 new WarehouseResponse(1L,WarehouseName.L3),
                 "ACTIVE",
-                SleeveType.SILICON,
+                SleeveType.FLAT,
                 SleeveCondition.NEW
         );
     }
@@ -124,7 +124,7 @@ public class TestDataUtil {
         sleeve.setSlot(1);
         sleeve.setManufactureDate(LocalDate.of(2025,4,20));
         sleeve.setWidth(100);
-        sleeve.setType(SleeveType.SILICON);
+        sleeve.setType(SleeveType.FLAT);
         sleeve.setCondition(SleeveCondition.NEW);
         sleeve.setWarehouse(createWarehouse("L3"));
         sleeve.setStatus("ACTIVE");
