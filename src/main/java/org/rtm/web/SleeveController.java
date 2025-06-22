@@ -72,7 +72,6 @@ public class SleeveController {
             @PathVariable("id") Long id,
             @RequestBody Map<String, Object> updates
     ) {
-
         return ResponseEntity.ok(sleeveService.updateSleeve(id, updates));
     }
 
