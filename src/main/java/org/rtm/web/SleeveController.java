@@ -76,7 +76,7 @@ public class SleeveController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<SleeveResponse> deleteSleeve(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteSleeve(@PathVariable("id") Long id) {
         sleeveService.deleteSleeve(id);
         return ResponseEntity.noContent().build();
 
