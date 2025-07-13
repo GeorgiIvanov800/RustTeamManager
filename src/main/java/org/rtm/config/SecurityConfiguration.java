@@ -23,14 +23,26 @@ import static org.springframework.http.HttpHeaders.*;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+    private static final String[] PUBLIC_URLS = {
+            "/swagger-ui/index.html",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/webjars/**"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .oauth2ResourceServer( auth ->
-                        auth.jwt(token -> token.jwtAuthenticationConverter(new KeycloakJwtAuthenticationConverter)))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(PUBLIC_URLS).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .oauth2ResourceServer(auth -> auth.jwt( jwt -> {}))
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
 
@@ -53,4 +65,5 @@ public class SecurityConfiguration {
         source.registerCorsConfiguration("/**", config);
         return  new CorsFilter(source);
     }
+
 }
