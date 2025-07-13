@@ -1,6 +1,7 @@
 package org.rtm.web;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.rtm.model.dto.request.SaveSleeveRequest;
 import org.rtm.model.dto.response.SleeveResponse;
 import org.rtm.service.SleeveService;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("sleeves")
 @RequiredArgsConstructor
