@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -23,10 +24,12 @@ public class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<Gra
             return List.of();
         }
 
-        return ((List<String>) realmAccess.get("roles")).stream()
+        Map<String, Object> realmRoles = (Map<String, Object>) realmAccess.get("realm_access");
+
+        return ((Set<String>) realmRoles.get("roles")).stream()
                 .map(roleName -> "ROLE_" + roleName)
                 .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
 }
