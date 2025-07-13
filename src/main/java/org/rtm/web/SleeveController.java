@@ -42,7 +42,6 @@ public class SleeveController {
     public ResponseEntity<List<SleeveResponse>> getSleeveSequenceNumber(
             @RequestParam("sequence") Integer sequenceNumber
     ) {
-        System.out.println();
         List<SleeveResponse> result = sleeveService.getSleevesBySleeveSequenceNumber(sequenceNumber);
 
         if (result.isEmpty()) {
