@@ -10,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,6 +24,7 @@ public class SleeveController {
     private final SleeveService sleeveService;
 
     @PostMapping(value = "/save", consumes = "application/json", produces = "application/json")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<SleeveResponse> saveSleeve(@RequestBody SaveSleeveRequest saveSleeveRequest) {
 
         SleeveResponse sleeveResponse = sleeveService.saveSleeve(saveSleeveRequest);
@@ -40,7 +39,6 @@ public class SleeveController {
     }
 
     @GetMapping("")
-    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<SleeveResponse>> getSleeveSequenceNumber(
             @RequestParam("sequence") Integer sequenceNumber
     ) {
@@ -75,6 +73,7 @@ public class SleeveController {
 
 
     @PatchMapping("update/{id}")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<SleeveResponse> updateSleeve(
             @PathVariable("id") Long id,
             @RequestBody Map<String, Object> updates
@@ -83,10 +82,11 @@ public class SleeveController {
     }
 
     @DeleteMapping("delete/{id}")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<Void> deleteSleeve(@PathVariable("id") Long id) {
+        System.out.println();
         sleeveService.deleteSleeve(id);
         return ResponseEntity.noContent().build();
-
     }
 
 }
