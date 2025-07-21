@@ -11,21 +11,31 @@ import java.util.stream.Collectors;
 
 
 public class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
-   @Override
+
+    private final String clientId;
+
+    public KeycloakRealmRoleConverter(String clientId) {
+        this.clientId = clientId;
+    }
+
+    @Override
    @SuppressWarnings("unchecked")
     public Collection<GrantedAuthority> convert(Jwt jwt) {
-        final Map<String, Object> realmAccess = (Map<String, Object>) jwt.getClaims();
+        final Map<String, Object> resourceAccess = (Map<String, Object>) jwt.getClaim("resource_access");
 
-        if (realmAccess == null || realmAccess.isEmpty()) {
+        if (resourceAccess == null || resourceAccess.isEmpty()) {
             return List.of();
         }
 
-        Map<String, Object> realmRoles = (Map<String, Object>) realmAccess.get("realm_access");
+        Map<String, Object> clientAccess = (Map<String, Object>) resourceAccess.get(clientId);
+        List<String> roles = (List<String>) clientAccess.get("roles");
 
-        return ((List<String>) realmRoles.get("roles")).stream()
+
+        return roles.stream()
                 .map(roleName -> "ROLE_" + roleName)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
+
     }
 
 }

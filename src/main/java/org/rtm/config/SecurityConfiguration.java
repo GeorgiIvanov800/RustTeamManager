@@ -29,12 +29,17 @@ import static org.springframework.http.HttpHeaders.*;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+    private static final String CLIENT_ID = "rtm";
     private static final String[] PUBLIC_URLS = {
             "/swagger-ui/index.html",
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs/**",
-            "/webjars/**"
+            "/webjars/**",
+            "/", "/index.html",
+            "/favicon.ico",
+            "/assets/**",
+            "/*.css", "/*.js"
     };
 
     @Bean
@@ -75,7 +80,7 @@ public class SecurityConfiguration {
     @Bean
     public Converter<Jwt, AbstractAuthenticationToken> jwtConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(new KeycloakRealmRoleConverter());
+        converter.setJwtGrantedAuthoritiesConverter(new KeycloakRealmRoleConverter(CLIENT_ID));
         return converter;
     }
 }

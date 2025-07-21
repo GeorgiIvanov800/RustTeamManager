@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("sleeves")
+@RequestMapping("/api/v1/sleeves")
 @RequiredArgsConstructor
 public class SleeveController {
     private final SleeveService sleeveService;
